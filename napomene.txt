@@ -1,0 +1,1 @@
+važno!!! - UNESI SVE ENV VARIJABLE U serverles.yml file!!!!!

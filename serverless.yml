@@ -1,0 +1,33 @@
+service: nestjs-comeback
+
+useDotenv: true
+
+plugins:
+  - serverless-plugin-optimize
+  - serverless-offline
+
+package:
+  individually: true
+  
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-central-1
+  timeout: 15
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+    AUTH: ${env:AUTH}
+    DB_NAME: ${env:DB_NAME}
+    JWT_SECRET: ${env:JWT_SECRET}
+    JWT_EXPIRES: ${env:JWT_EXPIRES}
+
+functions:
+  main:
+    handler: dist/serverless.handler
+    events:
+      - httpApi:
+          method: any
+          path: /{proxy+}
+        
+          

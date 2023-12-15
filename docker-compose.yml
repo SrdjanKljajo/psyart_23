@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+  api: 
+    image: nest-comeback
+    build:
+     dockerfile: Dockerfile
+     context: .
+     target: development
+    ports:
+      - 3000:3000
+    command: npm run start:dev
+    environment:
+     MONGODB_URI: ${MONGODB_URI}
+     AUTH: ${AUTH}
+     DB_NAME: ${DB_NAME}
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data_container:
