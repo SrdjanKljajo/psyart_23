@@ -2,7 +2,7 @@
 # BUILD FOR LOCAL DEVELOPMENT
 #############################
 
-FROM node:18-alpine As development
+FROM node:20-alpine As development
 
 # Create app directory
 WORKDIR /app
@@ -23,7 +23,7 @@ COPY . .
 # BUILD FOR PRODUCTION
 ######################
 
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -43,12 +43,12 @@ RUN npm ci --omit=dev && npm cache clean --force
 # PRODUCTION
 ############
 
-FROM node:18-alpine AS production
+FROM node:20-alpine AS production
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 3023
+EXPOSE 3000
 # new migrate and start app script
 CMD [  "npm", "run", "start:prod" ]
